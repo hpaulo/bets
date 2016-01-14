@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from datetime import datetime, date
 from Competition import Competition
+from MatchJsonEncoder import MatchJsonEncoder
 from Match import Match
 import requests
 
@@ -27,6 +28,7 @@ def _get_competition(competition_elem):
 
 
 def get_matches(day):
+    matches = []
     finished = False
     page = 0
     url = 'https://sports.bwin.es/es/sports/indexmultileague'
@@ -44,12 +46,13 @@ def get_matches(day):
             for match in matches:
                 teams, mults = _get_match_data(match)
                 match_obj = Match(teams[0], teams[1], mults, comp_obj)
-                print(match_obj)
+                matches.append(match_obj)
+                print(MatchJsonEncoder().encode(match_obj))
         if len(competitions) == 0:
             finished = True
         page += 1
         post_data['page'] = page
-
+    return matches
 
 if __name__ == "__main__":
     today = date.today()
