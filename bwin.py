@@ -28,7 +28,7 @@ def _get_competition(competition_elem):
 
 
 def get_matches(day):
-    matches = []
+    matches_obj = []
     finished = False
     page = 0
     url = 'https://sports.bwin.es/es/sports/indexmultileague'
@@ -46,13 +46,13 @@ def get_matches(day):
             for match in matches:
                 teams, mults = _get_match_data(match)
                 match_obj = Match(teams[0], teams[1], mults, comp_obj)
-                matches.append(match_obj)
+                matches_obj.append(match_obj)
                 print(MatchJsonEncoder().encode(match_obj))
         if len(competitions) == 0:
             finished = True
         page += 1
         post_data['page'] = page
-    return matches
+    return matches_obj
 
 if __name__ == "__main__":
     today = date.today()
