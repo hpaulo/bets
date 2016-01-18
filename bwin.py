@@ -3,7 +3,9 @@ from datetime import datetime, date
 from Competition import Competition
 from MatchJsonEncoder import MatchJsonEncoder
 from Match import Match
+import bd
 import requests
+import json
 
 
 def _get_date(day_elem):
@@ -40,14 +42,12 @@ def get_matches(day):
         competitions = soup.find_all(class_='event-group-level1')
         for competition in competitions:
             comp_obj = _get_competition(competition)
-            print(comp_obj)
             match_listing = competition.parent.findNext('ul')
             matches = match_listing.find_all(class_='col3 three-way')
             for match in matches:
                 teams, mults = _get_match_data(match)
                 match_obj = Match(teams[0], teams[1], mults, comp_obj)
                 matches_obj.append(match_obj)
-                print(MatchJsonEncoder().encode(match_obj))
         if len(competitions) == 0:
             finished = True
         page += 1
@@ -56,4 +56,6 @@ def get_matches(day):
 
 if __name__ == "__main__":
     today = date.today()
-    get_matches(today)
+    today_matches = get_matches(today)
+    today_json_matches = [json.loads(MatchJsonEncoder().encode(m)) for m in today_matches]
+    bd.insert_matches(today_json_matches)
