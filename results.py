@@ -2,10 +2,23 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import requests
 import locale
+import re
 
 locale.setlocale(locale.LC_ALL, 'Spanish')
-
 enlace = 'https://sports.bwin.es/es/sports/results?sport=4&period=ThreeDays&sort=Date&page='
+
+
+def parse_results(result_text):
+    hyphen_re = re.compile(r'^(\d+)-(\d+)$')
+    colon_re = re.compile(r'^(\d+):(\d+) \(\d+:\d+\)$')
+    hyphen_m = hyphen_re.search(result_text)
+    colon_m = colon_re.search(result_text)
+    if hyphen_m:
+        return [int(hyphen_m.group(1)), int(hyphen_m.group(2))]
+    elif colon_m:
+        return [int(colon_m.group(1)), int(colon_m.group(2))]
+    else:
+        return []
 
 for i in range(6):
     r = requests.get(enlace + str(i))
@@ -19,4 +32,4 @@ for i in range(6):
             for match in matches:
                 name = match.find(class_='name')
                 result = match.find(class_='result')
-                print(name.text, result.text)
+                print(name.text, parse_results(result.text))
