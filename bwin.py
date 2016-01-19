@@ -15,10 +15,17 @@ def _get_date(day_elem):
     return match_date
 
 
+def _get_match_time(match_elem):
+    time_str = match_elem.parent.parent.findNext('h6').text
+    match_time = datetime.strptime(time_str, '%H:%M').time()
+    return match_time
+
+
 def _get_match_data(match_elem):
     teams = [option.text for option in match_elem.find_all(class_='option-name') if option.text != 'X']
     mults = [float(odds.text) for odds in match_elem.find_all(class_='odds')]
-    return teams, mults
+    match_time = _get_match_time(match_elem)
+    return teams, mults, match_time
 
 
 def _get_competition(competition_elem):
@@ -45,8 +52,8 @@ def get_matches(day):
             match_listing = competition.parent.findNext('ul')
             matches = match_listing.find_all(class_='col3 three-way')
             for match in matches:
-                teams, mults = _get_match_data(match)
-                match_obj = Match(teams[0], teams[1], mults, comp_obj)
+                teams, mults, match_time = _get_match_data(match)
+                match_obj = Match(teams[0], teams[1], mults, comp_obj, datetime.combine(day, match_time))
                 matches_obj.append(match_obj)
         if len(competitions) == 0:
             finished = True
