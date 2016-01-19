@@ -26,11 +26,16 @@ def parse_teams(teams_text):
     return [teams_splitted[0].strip(), teams_splitted[1].strip()]
 
 
+def parse_date(date_text):
+    parsed_date = datetime.strptime(date.h3.text.strip(), '%A, %d de %B de %Y').date()
+    return parsed_date
+
+
 for i in range(6):
     r = requests.get(enlace + str(i))
     soup = BeautifulSoup(r.text, 'html.parser')
     for date in soup.find_all(class_='result-group date'):
-        print(datetime.strptime(date.h3.text.strip(), '%A, %d de %B de %Y').date())
+        print(parse_date(date.h3.text.strip()))
         competitions = soup.find_all(class_='result-subgroup league')
         for competition in competitions:
             print(competition.thead.tr.th.text.strip())
