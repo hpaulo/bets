@@ -20,6 +20,12 @@ def parse_results(result_text):
     else:
         return []
 
+
+def parse_teams(teams_text):
+    teams_splitted = teams_text.split(' - ')
+    return [teams_splitted[0].strip(), teams_splitted[1].strip()]
+
+
 for i in range(6):
     r = requests.get(enlace + str(i))
     soup = BeautifulSoup(r.text, 'html.parser')
@@ -32,4 +38,4 @@ for i in range(6):
             for match in matches:
                 name = match.find(class_='name')
                 result = match.find(class_='result')
-                print(name.text, parse_results(result.text))
+                print(parse_teams(name.text), parse_results(result.text))
