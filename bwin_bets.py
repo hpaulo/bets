@@ -65,4 +65,4 @@ if __name__ == "__main__":
     today = date.today()
     today_matches = get_matches(today)
     today_json_matches = [json.loads(MatchJsonEncoder().encode(m)) for m in today_matches]
-    bd.insert_matches(today_json_matches)
+    bd.insert_new_matches(today_json_matches)
