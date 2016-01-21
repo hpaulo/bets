@@ -16,7 +16,7 @@ def _get_date(day_elem):
 
 
 def _get_match_time(match_elem):
-    time_str = match_elem.parent.parent.findNext('h6').text
+    time_str = match_elem.parent.parent.findNext('h6').text.strip()
     match_time = datetime.strptime(time_str, '%H:%M').time()
     return match_time
 
