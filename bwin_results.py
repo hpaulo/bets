@@ -78,3 +78,4 @@ if __name__ == "__main__":
     matches_results = get_matches_results()
     for match_result in matches_results:
         print(match_result, match_result.result)
+        bd.update_results(match_result, match_result.result)

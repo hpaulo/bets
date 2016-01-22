@@ -21,3 +21,8 @@ def insert_new_matches(matches):
         else:
             print('NOT FOUND: ', match_dict)
             coll.insert_one(match_dict)
+
+
+def update_results(match, result):
+    coll.update_one({'mdatetime': str(match.mdatetime), 'local': match.local, 'visitor': match.visitor},
+                    {'$set': {'result': result}})
