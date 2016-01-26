@@ -21,9 +21,13 @@ def update_results():
         bd.update_results(match_result, match_result.result)
 
 
-if __name__ == "__main__":
+def main():
     schedule.every().hour.do(store_new_matches)
     schedule.every(151).minutes.do(store_new_matches)
     while True:
         schedule.run_pending()
         time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()
