@@ -39,6 +39,6 @@ def main():
 
 if __name__ == "__main__":
     import logging.config
-    logging.config.fileConfig('conf/log.conf')
+    logging.config.fileConfig('conf/log.conf', disable_existing_loggers=False)
     logger = logging.getLogger(__name__)
     main()

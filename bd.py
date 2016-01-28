@@ -27,7 +27,7 @@ def insert_new_matches(matches):
         else:
             logger.debug('New match: %s', match_dict)
             coll.insert_one(match_dict)
-    logger.debug('Finish inserting new matches', len(matches))
+    logger.debug('Finish inserting new matches %d', len(matches))
 
 
 def update_results(match, result):

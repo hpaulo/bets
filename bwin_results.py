@@ -71,7 +71,7 @@ def get_matches_results():
             competition_elems = soup.find_all(class_='result-subgroup league')
             logger.info('%d competitions found', len(competition_elems))
             for competition_elem in competition_elems:
-                logger.info('Scraping competition %s', competition_elem.text)
+                logger.info('Scraping competition')
                 match_elems = competition_elem.tbody.find_all('tr')
                 logger.info('%d matches found', len(match_elems))
                 for match_elem in match_elems:

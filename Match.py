@@ -20,7 +20,6 @@ class Match:
     @classmethod
     def from_json(cls, dct):
         if dct is None:
-            logger.warn('JSON dictionary provided is null')
             return None
         competition = Competition(dct['competition']['code'], dct['competition']['name'])
         mdatetime = datetime.strptime(dct['mdatetime'], '%Y-%m-%d %H:%M:%S')
