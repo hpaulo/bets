@@ -33,8 +33,11 @@ def main():
     schedule.every(151).minutes.do(store_new_matches)
     logger.info('Starting job scheduler infinite loop')
     while True:
-        schedule.run_pending()
-        time.sleep(1)
+        try:
+            schedule.run_pending()
+            time.sleep(1)
+        except Exception as e:
+            logger.error(e)
 
 
 if __name__ == "__main__":
