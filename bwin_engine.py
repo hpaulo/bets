@@ -30,7 +30,7 @@ def update_results():
 def main():
     logger.info('Starting application')
     schedule.every().hour.do(store_new_matches)
-    schedule.every(151).minutes.do(store_new_matches)
+    schedule.every(151).minutes.do(update_results)
     logger.info('Starting job scheduler infinite loop')
     while True:
         try:
